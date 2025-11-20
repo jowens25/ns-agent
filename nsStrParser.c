@@ -53,47 +53,45 @@ const char novstr[] = "$GPNVS,";
 
 extern radioBlock_t radio;
 
+char interfaceStr[][36] =
+	{
+		"# Wired adapter #1\r\n",
+		"allow-hotplug eth0\r\n",
+		"no-auto-down eth0\r\n",
+		"iface eth0 inet static\r\n",
+		"address 192.168.7.224\r\n",
+		"netmask 255.255.255.0\r\n",
+		"gateway 192.168.7.254\r\n",
+		"dns-nameservers 8.8.8.8 8.8.4.4\r\n",
 
-char interfaceStr [][36] = 
-{
-	"# Wired adapter #1\r\n",
-	"allow-hotplug eth0\r\n",
-	"no-auto-down eth0\r\n",
-	"iface eth0 inet static\r\n",
-	"address 192.168.7.224\r\n",
-	"netmask 255.255.255.0\r\n",
-	"gateway 192.168.7.254\r\n",
-	"dns-nameservers 8.8.8.8 8.8.4.4\r\n",
-
-	"# Local loopback\r\n",
-	"auto lo\r\n",
-	"iface lo inet loopback\r\n",
-
+		"# Local loopback\r\n",
+		"auto lo\r\n",
+		"iface lo inet loopback\r\n",
 
 };
 
-extern char* shm_data;
+extern char *shm_data;
 #define WRITE_TO_SHM_FLAG_STRING (1)
 void writeToShm(void)
 {
-	if(shm_data == NULL) return;
-	memcpy(shm_data, (char*)&nvwData, sizeof(NOVUS_WEB_DATA_T));
-	memcpy(shm_data  + sizeof(NOVUS_WEB_DATA_T), (char*)&radio, sizeof(radioBlock_t));
-	
+	if (shm_data == NULL)
+		return;
+	memcpy(shm_data, (char *)&nvwData, sizeof(NOVUS_WEB_DATA_T));
+	memcpy(shm_data + sizeof(NOVUS_WEB_DATA_T), (char *)&radio, sizeof(radioBlock_t));
 }
 
 NOVUS_WEB_INPUT_CMD_T webCmdInput;
-int readFromShm(char* buff)
+int readFromShm(char *buff)
 {
-	int msgReady = 0;
-	if(shm_data == NULL) return;
-	if( *( shm_data + sizeof(NOVUS_WEB_DATA_T) + sizeof(radioBlock_t), sizeof(NOVUS_WEB_INPUT_CMD_T) - 1) != 0)
-	{
-		memcpy(webCmdInput,shm_data  + sizeof(NOVUS_WEB_DATA_T) + sizeof(radioBlock_t), sizeof(NOVUS_WEB_INPUT_CMD_T) );
-		*( shm_data + sizeof(NOVUS_WEB_DATA_T) + sizeof(radioBlock_t), sizeof(NOVUS_WEB_INPUT_CMD_T) - 1) = 0;
-		msgReady = 1;
-	}
-	return msgReady;
+	// int msgReady = 0;
+	// if(shm_data == NULL) return;
+	// if( *( shm_data + sizeof(NOVUS_WEB_DATA_T) + sizeof(radioBlock_t), sizeof(NOVUS_WEB_INPUT_CMD_T) - 1) != 0)
+	//{
+	//	memcpy(webCmdInput,shm_data  + sizeof(NOVUS_WEB_DATA_T) + sizeof(radioBlock_t), sizeof(NOVUS_WEB_INPUT_CMD_T) );
+	//	*( shm_data + sizeof(NOVUS_WEB_DATA_T) + sizeof(radioBlock_t), sizeof(NOVUS_WEB_INPUT_CMD_T) - 1) = 0;
+	//	msgReady = 1;
+	// }
+	// return msgReady;
 }
 
 /************************************************
@@ -108,8 +106,8 @@ bool strParser(char *str)
 	bool retVal = false; // Default failed
 	int parm1;
 	char *pstr = NULL;
-   	char *lastchr;
-   	unsigned int cs = 0;
+	char *lastchr;
+	unsigned int cs = 0;
 
 	if (str)
 	{
@@ -119,84 +117,87 @@ bool strParser(char *str)
 
 		// Look for "$GPNVS,n," where n=string number.
 
-		if (sscanf((char *) str, "$GPNVS,%d,%*s", &parm1) == 1) {
+		if (sscanf((char *)str, "$GPNVS,%d,%*s", &parm1) == 1)
+		{
 			if (parm1 >= 0 && parm1 <= 99)
 			{
 				// Verify checksum
 
-				if ((lastchr = strrchr(str, '*')) != NULL) 
-                                {
-					sscanf(lastchr+1,"%x", &cs);
-					*lastchr = 0;	
+				if ((lastchr = strrchr(str, '*')) != NULL)
+				{
+					sscanf(lastchr + 1, "%x", &cs);
+					*lastchr = 0;
 
-					if (chksum(str+1, cs) == true) // Match!
+					if (chksum(str + 1, cs) == true) // Match!
 					{
 						// Remove GPNVS
 
 						switch (parm1)
 						{
-							case 1:
-								parseId1(str+9);
-								
-								break;
-							case 2:
-								parseId2(str+9);
-								break;
-							case 3:
-								parseId3(str+9);
-								break;
-							case 4:
-								parseId4(str+9);
-								break;
-							case 5:
-								parseId5(str+9);
-								break;
-							case 6:
-								parseId6(str+9);
-								break;
-							case 7:
-								parseId7(str+9);
-								break;
-							case 8:
-								parseId8(str+9);
-								break;
-							case 9:
-								parseId9(str+9);
-								break;
-							case 10:
-								parseId10(str+10);
-								break;
-							case 11:
-								parseId11(str+10);
-								break;
-							case 13:
-								parseId13(str+10);
-								break;
-							case 14:
-								parseId14(str+10);
-								break;
-							case 15:
-								parseId15(str+10);
-								break;
-							case 16:
-								parseId16(str+10);
-								break;
-							case 99:
-								parseId99(str+10);
-								break;
-							default:
-								retVal = false;
+						case 1:
+							parseId1(str + 9);
+
+							break;
+						case 2:
+							parseId2(str + 9);
+							break;
+						case 3:
+							parseId3(str + 9);
+							break;
+						case 4:
+							parseId4(str + 9);
+							break;
+						case 5:
+							parseId5(str + 9);
+							break;
+						case 6:
+							parseId6(str + 9);
+							break;
+						case 7:
+							parseId7(str + 9);
+							break;
+						case 8:
+							parseId8(str + 9);
+							break;
+						case 9:
+							parseId9(str + 9);
+							break;
+						case 10:
+							parseId10(str + 10);
+							break;
+						case 11:
+							parseId11(str + 10);
+							break;
+						case 13:
+							parseId13(str + 10);
+							break;
+						case 14:
+							parseId14(str + 10);
+							break;
+						case 15:
+							parseId15(str + 10);
+							break;
+						case 16:
+							parseId16(str + 10);
+							break;
+						case 99:
+							parseId99(str + 10);
+							break;
+						default:
+							retVal = false;
 						}
 
-						if(WRITE_TO_SHM_FLAG_STRING == parm1)
+						if (WRITE_TO_SHM_FLAG_STRING == parm1)
 						{
 							writeToShm();
-							if(readFromShm(n))
+							// if (readFromShm(n))
 						}
 					}
-				} 
+				}
 			}
-		} else if (str[0] == '$') {
+		}
+		else if (str[0] == '$')
+		{
 			if (str[1] != 'G')
 			{
 				if (strlen(str) < RESULT_MAX_LEN)
@@ -232,7 +233,7 @@ bool chksum(char *str, int cs)
 
 	if (str)
 	{
-		for (i = 0; i < strlen((char *) str); i++)
+		for (i = 0; i < strlen((char *)str); i++)
 		{
 			checksum ^= str[i];
 		}
@@ -275,42 +276,44 @@ void parseId1(char *str)
 	char strarray[11][MAX_STR_WIDTH];
 	char fmtarray[11][MAX_STR_WIDTH];
 
-    if (strSplit(id1, ',', 11, &fmtarray[0]) == 11)
-    {
-    	if (strSplit(str, ',', 11, &strarray[0]) == 11)
-    	{
-			memcpy(nvwData.nsTime,&strarray[0][0],2);
+	if (strSplit(id1, ',', 11, &fmtarray[0]) == 11)
+	{
+		if (strSplit(str, ',', 11, &strarray[0]) == 11)
+		{
+			memcpy(nvwData.nsTime, &strarray[0][0], 2);
 			nvwData.nsTime[2] = ':';
-			memcpy(nvwData.nsTime + 3,&strarray[0][2],2);
+			memcpy(nvwData.nsTime + 3, &strarray[0][2], 2);
 			nvwData.nsTime[5] = ':';
-			memcpy(nvwData.nsTime + 6,&strarray[0][4],2);
+			memcpy(nvwData.nsTime + 6, &strarray[0][4], 2);
 			nvwData.nsTime[8] = 0;
 
-			memcpy(nvwData.nsDate,&strarray[1][0],2);
+			memcpy(nvwData.nsDate, &strarray[1][0], 2);
 			nvwData.nsDate[2] = '-';
-			memcpy(nvwData.nsDate + 3,&strarray[1][2],2);
+			memcpy(nvwData.nsDate + 3, &strarray[1][2], 2);
 			nvwData.nsDate[5] = '-';
-			memcpy(nvwData.nsDate + 6,&strarray[1][4],2);
+			memcpy(nvwData.nsDate + 6, &strarray[1][4], 2);
 			nvwData.nsDate[8] = 0;
 
-
-
-    		strcpy(radio.nsFaultGPS1Lock, &strarray[2][0]);
-    		strcpy(radio.nsFaultGPS2Lock, &strarray[3][0]);
-    		strcpy(radio.nsFaultSatView1,  &strarray[4][0]);
-    		strcpy(radio.nsFaultSatView2, &strarray[5][0]);
-    		strcpy(radio.nsFaultChannelBytes, &strarray[6][0]);
-    		strcpy(radio.nsFaultPowerSupplyByte, &strarray[7][0]);
-    		strcpy(radio.nsFaultErrMsgByte, &strarray[8][0]);
-    		strcpy(radio.nsFaultAnt1Stat, &strarray[9][0]);
-    		strcpy(radio.nsFaultAnt2Stat, &strarray[10][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S1: Malformed\n");
-    		}
-    	}
-	} else {
+			strcpy(radio.nsFaultGPS1Lock, &strarray[2][0]);
+			strcpy(radio.nsFaultGPS2Lock, &strarray[3][0]);
+			strcpy(radio.nsFaultSatView1, &strarray[4][0]);
+			strcpy(radio.nsFaultSatView2, &strarray[5][0]);
+			strcpy(radio.nsFaultChannelBytes, &strarray[6][0]);
+			strcpy(radio.nsFaultPowerSupplyByte, &strarray[7][0]);
+			strcpy(radio.nsFaultErrMsgByte, &strarray[8][0]);
+			strcpy(radio.nsFaultAnt1Stat, &strarray[9][0]);
+			strcpy(radio.nsFaultAnt2Stat, &strarray[10][0]);
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S1: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S1: Format err\n");
@@ -342,10 +345,10 @@ void parseId2(char *str)
 	char strarray[10][MAX_STR_WIDTH];
 	char fmtarray[10][MAX_STR_WIDTH];
 
-    if (strSplit(id2, ',', 10, &fmtarray[0]) == 10)
-    {
-    	if (strSplit(str, ',', 10, &strarray[0]) == 10)
-    	{
+	if (strSplit(id2, ',', 10, &fmtarray[0]) == 10)
+	{
+		if (strSplit(str, ',', 10, &strarray[0]) == 10)
+		{
 			strcpy(radio.nsChannel1Vrms, &strarray[2][0]);
 			strcpy(radio.nsChannel2Vrms, &strarray[3][0]);
 			strcpy(radio.nsChannel3Vrms, &strarray[4][0]);
@@ -354,13 +357,17 @@ void parseId2(char *str)
 			strcpy(radio.nsChannel6Vrms, &strarray[7][0]);
 			strcpy(radio.nsChannel7Vrms, &strarray[8][0]);
 			strcpy(radio.nsChannel8Vrms, &strarray[9][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S2: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S2: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S2: Format err\n");
@@ -393,11 +400,11 @@ void parseId3(char *str)
 	char strarray[12][MAX_STR_WIDTH];
 	char fmtarray[12][MAX_STR_WIDTH];
 
-    if (strSplit(id3, ',', 12, &fmtarray[0]) == 12)
-    {
-    	if (strSplit(str, ',', 12, &strarray[0]) == 12)
-    	{
-    		strcpy(radio.nsPS1Status, &strarray[2][0]);
+	if (strSplit(id3, ',', 12, &fmtarray[0]) == 12)
+	{
+		if (strSplit(str, ',', 12, &strarray[0]) == 12)
+		{
+			strcpy(radio.nsPS1Status, &strarray[2][0]);
 			strcpy(radio.nsPS2Status, &strarray[3][0]);
 			strcpy(radio.nsPS3Status, &strarray[4][0]);
 			strcpy(radio.nsPS4Status, &strarray[5][0]);
@@ -407,13 +414,17 @@ void parseId3(char *str)
 			strcpy(radio.nsPS8Status, &strarray[9][0]);
 			strcpy(radio.nsBITStatus, &strarray[10][0]);
 			strcpy(radio.nsPSTemp, &strarray[11][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S3: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S3: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S3: Format err\n");
@@ -444,11 +455,11 @@ void parseId4(char *str)
 	char strarray[11][MAX_STR_WIDTH];
 	char fmtarray[11][MAX_STR_WIDTH];
 
-    if (strSplit(id4, ',', 10, &fmtarray[0]) == 10)
-    {
-    	if (strSplit(str, ',', 10, &strarray[0]) == 10)
-    	{
-    		strcpy(radio.nsChannel9Vrms, &strarray[2][0]);
+	if (strSplit(id4, ',', 10, &fmtarray[0]) == 10)
+	{
+		if (strSplit(str, ',', 10, &strarray[0]) == 10)
+		{
+			strcpy(radio.nsChannel9Vrms, &strarray[2][0]);
 			strcpy(radio.nsChannel10Vrms, &strarray[3][0]);
 			strcpy(radio.nsChannel11Vrms, &strarray[4][0]);
 			strcpy(radio.nsChannel12Vrms, &strarray[5][0]);
@@ -456,13 +467,17 @@ void parseId4(char *str)
 			strcpy(radio.nsChannel14Vrms, &strarray[7][0]);
 			strcpy(radio.nsChannel15Vrms, &strarray[8][0]);
 			strcpy(radio.nsChannel16Vrms, &strarray[9][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S4: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S4: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S4: Format err\n");
@@ -491,20 +506,24 @@ void parseId5(char *str)
 	char strarray[6][MAX_STR_WIDTH];
 	char fmtarray[6][MAX_STR_WIDTH];
 
-    if (strSplit(id5, ',', 6, &fmtarray[0]) == 6)
-    {
-    	if (strSplit(str, ',', 6, &strarray[0]) == 6)
-    	{
-    		strcpy(radio.nsSensorPotentiometer, &strarray[2][0]);
+	if (strSplit(id5, ',', 6, &fmtarray[0]) == 6)
+	{
+		if (strSplit(str, ',', 6, &strarray[0]) == 6)
+		{
+			strcpy(radio.nsSensorPotentiometer, &strarray[2][0]);
 			strcpy(radio.nsSensorFanPWM, &strarray[3][0]);
-		    strcpy(radio.nsSensorTemperature, &strarray[4][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S5: Malformed\n");
-    		}
-    	}
-	} else {
+			strcpy(radio.nsSensorTemperature, &strarray[4][0]);
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S5: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S5: Format err\n");
@@ -538,11 +557,11 @@ void parseId6(char *str)
 	char strarray[11][MAX_STR_WIDTH];
 	char fmtarray[11][MAX_STR_WIDTH];
 
-    if (strSplit(id6, ',', 11, &fmtarray[0]) == 11)
-    {
-    	if (strSplit(str, ',', 11, &strarray[0]) == 11)
-    	{
-    		strcpy(radio.nsSysActivePCBAssy, &strarray[0][0]);
+	if (strSplit(id6, ',', 11, &fmtarray[0]) == 11)
+	{
+		if (strSplit(str, ',', 11, &strarray[0]) == 11)
+		{
+			strcpy(radio.nsSysActivePCBAssy, &strarray[0][0]);
 			strcpy(radio.nsSysGNSSLock, &strarray[1][0]);
 			strcpy(radio.nsSysInputErr, &strarray[2][0]);
 			strcpy(radio.nsSysChanStatusWord, &strarray[3][0]);
@@ -550,16 +569,20 @@ void parseId6(char *str)
 			strcpy(radio.nsSysSecPSStatus, &strarray[5][0]);
 			strcpy(radio.nsSysActivePCBStatus, &strarray[6][0]);
 			strcpy(radio.nsSysChksumStatus, &strarray[7][0]);
-		    strcpy(radio.nsSysChanFaultBin, &strarray[8][0]);
+			strcpy(radio.nsSysChanFaultBin, &strarray[8][0]);
 			strcpy(radio.nsSysPriPCBAmpStatus, &strarray[9][0]);
-		    strcpy(radio.nsSysBkupPCBAmpStatus, &strarray[10][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S6: Malformed\n");
-    		}
-    	}
-	} else {
+			strcpy(radio.nsSysBkupPCBAmpStatus, &strarray[10][0]);
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S6: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S6: Format err\n");
@@ -593,27 +616,31 @@ void parseId7(char *str)
 	char strarray[11][MAX_STR_WIDTH];
 	char fmtarray[11][MAX_STR_WIDTH];
 
-    if (strSplit(id7, ',', 11, &fmtarray[0]) == 11)
-    {
-    	if (strSplit(str, ',', 11, &strarray[0]) == 11)
-    	{
+	if (strSplit(id7, ',', 11, &fmtarray[0]) == 11)
+	{
+		if (strSplit(str, ',', 11, &strarray[0]) == 11)
+		{
 
-    		strcpy(radio.nsSysGPSLock, &strarray[2][0]);
+			strcpy(radio.nsSysGPSLock, &strarray[2][0]);
 			strcpy(radio.nsSysSatView, &strarray[3][0]);
-			strcpy(radio.nsSysErrorByte,&strarray[4][0]);
+			strcpy(radio.nsSysErrorByte, &strarray[4][0]);
 			strcpy(radio.nsSysFreqDiff, &strarray[5][0]);
 			strcpy(radio.nsSysPPSDiff, &strarray[6][0]);
 			strcpy(radio.nsSysFreqCorSlice, &strarray[7][0]);
 			strcpy(radio.nsSysDACValue, &strarray[8][0]);
 			strcpy(radio.nsSysPS1VDC, &strarray[9][0]);
 			strcpy(radio.nsSysPS2VDC, &strarray[10][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S7: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S7: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S7: Format err\n");
@@ -643,11 +670,11 @@ void parseId8(char *str)
 	char strarray[8][MAX_STR_WIDTH];
 	char fmtarray[8][MAX_STR_WIDTH];
 
-    if (strSplit(id8, ',', 8, &fmtarray[0]) == 8)
-    {
-    	if (strSplit(str, ',', 8, &strarray[0]) == 8)
-    	{
-    		strcpy(radio.nsEventDiscCounter, &strarray[0][0]);
+	if (strSplit(id8, ',', 8, &fmtarray[0]) == 8)
+	{
+		if (strSplit(str, ',', 8, &strarray[0]) == 8)
+		{
+			strcpy(radio.nsEventDiscCounter, &strarray[0][0]);
 			strcpy(radio.nsEventUserEnabled, &strarray[1][0]);
 			strcpy(radio.nsEventSysEnabled, &strarray[2][0]);
 			strcpy(radio.nsEventGPSLock, &strarray[3][0]);
@@ -655,13 +682,17 @@ void parseId8(char *str)
 			strcpy(radio.nsEventTimeAlignment, &strarray[5][0]);
 			strcpy(radio.nsEventEstAccuracy, &strarray[6][0]);
 			strcpy(radio.nsEventEdgeDetDir, &strarray[7][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S8: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S8: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S8: Format err\n");
@@ -689,24 +720,28 @@ void parseId9(char *str)
 	char strarray[9][MAX_STR_WIDTH];
 	char fmtarray[9][MAX_STR_WIDTH];
 
-    if (strSplit(id9, ',', 9, &fmtarray[0]) == 9)
-    {
-    	if (strSplit(str, ',', 9, &strarray[0]) == 9)
-    	{
-    		strcpy(radio.nsMeasureFreq, &strarray[0][0]);
+	if (strSplit(id9, ',', 9, &fmtarray[0]) == 9)
+	{
+		if (strSplit(str, ',', 9, &strarray[0]) == 9)
+		{
+			strcpy(radio.nsMeasureFreq, &strarray[0][0]);
 			strcpy(radio.nsMeasureDAC, &strarray[1][0]);
 
 			strcpy(radio.nsMeasureAnt, &strarray[4][0]);
 
 			strcpy(radio.nsMeasureTemp, &strarray[7][0]);
 			strcpy(radio.nsMeasureHeaterTemp, &strarray[8][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S9: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S9: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S9: Format err\n");
@@ -737,33 +772,34 @@ void parseId10(char *str)
 	char strarray[7][MAX_STR_WIDTH];
 	char fmtarray[7][MAX_STR_WIDTH];
 
-    if (strSplit(id10, ',', 7, &fmtarray[0]) == 7)
-    {
-    	if (strSplit(str, ',', 7, &strarray[0]) == 7)
-    	{
-    		strcpy(radio.nsPPSStability, &strarray[0][0]);
+	if (strSplit(id10, ',', 7, &fmtarray[0]) == 7)
+	{
+		if (strSplit(str, ',', 7, &strarray[0]) == 7)
+		{
+			strcpy(radio.nsPPSStability, &strarray[0][0]);
 			strcpy(radio.nsPPSDiscGPS, &strarray[1][0]);
 			strcpy(radio.nsPPSOutputType, &strarray[2][0]);
 			strcpy(radio.nsPPSDifference, &strarray[3][0]);
 			strcpy(radio.nsPPSCalFactor, &strarray[4][0]);
 			strcpy(radio.nsPPSTimeCalFactor, &strarray[5][0]);
 			strcpy(radio.nsPPSFreqVar, &strarray[6][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S10: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S10: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S10: Format err\n");
 		}
 	}
 }
-
-
-
 
 /*
 	1. Identifier $GPNVS
@@ -784,11 +820,11 @@ void parseId11(char *str)
 	char strarray[8][MAX_STR_WIDTH];
 	char fmtarray[8][MAX_STR_WIDTH];
 
-    if (strSplit(id11, ',', 8, &fmtarray[0]) == 8)
-    {
-    	if (strSplit(str, ',', 8, &strarray[0]) == 8)
-    	{
-    		strcpy(radio.nsWarmupRemaining, &strarray[0][0]);
+	if (strSplit(id11, ',', 8, &fmtarray[0]) == 8)
+	{
+		if (strSplit(str, ',', 8, &strarray[0]) == 8)
+		{
+			strcpy(radio.nsWarmupRemaining, &strarray[0][0]);
 			strcpy(radio.nsWarmupComplete, &strarray[1][0]);
 			strcpy(radio.nsHoldoverElapsed, &strarray[2][0]);
 			strcpy(radio.nsHoldoverValid, &strarray[3][0]);
@@ -796,13 +832,17 @@ void parseId11(char *str)
 			// strcpy(radio., &strarray[5][0]);
 			// strcpy(radio., &strarray[6][0]);
 			strcpy(radio.nsHoldoverTemp, &strarray[7][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S11: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S11: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S11: Format err\n");
@@ -828,32 +868,33 @@ void parseId13(char *str)
 	char strarray[6][MAX_STR_WIDTH];
 	char fmtarray[6][MAX_STR_WIDTH];
 
-    if (strSplit(id13, ',', 6, &fmtarray[0]) == 6)
-    {
-    	if (strSplit(str, ',', 6, &strarray[0]) == 6)
-    	{
-    		strcpy(radio.nsDiscPrioritySource, &strarray[0][0]);
+	if (strSplit(id13, ',', 6, &fmtarray[0]) == 6)
+	{
+		if (strSplit(str, ',', 6, &strarray[0]) == 6)
+		{
+			strcpy(radio.nsDiscPrioritySource, &strarray[0][0]);
 			strcpy(radio.nsDiscCurrentSource, &strarray[1][0]);
 			strcpy(radio.nsDiscGNSSLock, &strarray[2][0]);
 			strcpy(radio.nsDiscRFPresent, &strarray[3][0]);
 			strcpy(radio.nsDiscOpticalPresent, &strarray[4][0]);
 			strcpy(radio.nsDiscLoopLock, &strarray[5][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S13: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S13: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S13: Format err\n");
 		}
 	}
 }
-
-
-
 
 /*
 1. Identifier						$GPNVS
@@ -877,11 +918,11 @@ void parseId14(char *str)
 	char strarray[8][MAX_STR_WIDTH];
 	char fmtarray[8][MAX_STR_WIDTH];
 
-    if (strSplit(id14, ',', 8, &fmtarray[0]) == 8)
-    {
-    	if (strSplit(str, ',', 8, &strarray[0]) == 8)
-    	{
-    		strcpy(radio.nsRbStatus, &strarray[0][0]);
+	if (strSplit(id14, ',', 8, &fmtarray[0]) == 8)
+	{
+		if (strSplit(str, ',', 8, &strarray[0]) == 8)
+		{
+			strcpy(radio.nsRbStatus, &strarray[0][0]);
 			strcpy(radio.nsRbAlarm, &strarray[1][0]);
 			strcpy(radio.nsRbMode, &strarray[2][0]);
 			// strcpy(radio., &strarray[3][0]);		//steer not used
@@ -889,13 +930,17 @@ void parseId14(char *str)
 			// strcpy(radio., &strarray[5][0]);		//last update
 			// strcpy(radio., &strarray[6][0]);		//offset phase
 			strcpy(radio.nsRbHoldoverSource, &strarray[7][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S14: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S14: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S14: Format err\n");
@@ -903,37 +948,35 @@ void parseId14(char *str)
 	}
 }
 
-
-
-
 void parseId15(char *str)
 {
 	char strarray[6][MAX_STR_WIDTH];
 	char fmtarray[6][MAX_STR_WIDTH];
 
-    if (strSplit(id15, ',', 6, &fmtarray[0]) == 6)
-    {
-    	if (strSplit(str, ',', 6, &strarray[0]) == 6)
-    	{
-    		strcpy(radio.nsRb2Lock, &strarray[0][0]);
+	if (strSplit(id15, ',', 6, &fmtarray[0]) == 6)
+	{
+		if (strSplit(str, ',', 6, &strarray[0]) == 6)
+		{
+			strcpy(radio.nsRb2Lock, &strarray[0][0]);
 			strcpy(radio.nsRb2Status, &strarray[2][0]);
 			strcpy(radio.nsRb2Steer, &strarray[3][0]);
-
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S15: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S15: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S15: Format err\n");
 		}
 	}
 }
-
-
 
 /*
 1. Identifier $GPNVS
@@ -959,10 +1002,10 @@ void parseId16(char *str)
 	char strarray[10][MAX_STR_WIDTH];
 	char fmtarray[10][MAX_STR_WIDTH];
 
-    if (strSplit(id16, ',', 10, &fmtarray[0]) == 10)
-    {
-    	if (strSplit(str, ',', 10, &strarray[0]) == 10)
-    	{
+	if (strSplit(id16, ',', 10, &fmtarray[0]) == 10)
+	{
+		if (strSplit(str, ',', 10, &strarray[0]) == 10)
+		{
 			strcpy(radio.nsChannel17Vrms, &strarray[2][0]);
 			strcpy(radio.nsChannel18Vrms, &strarray[3][0]);
 			strcpy(radio.nsChannel19Vrms, &strarray[4][0]);
@@ -971,27 +1014,23 @@ void parseId16(char *str)
 			strcpy(radio.nsChannel22Vrms, &strarray[7][0]);
 			strcpy(radio.nsChannel23Vrms, &strarray[8][0]);
 			strcpy(radio.nsChannel24Vrms, &strarray[9][0]);
-    	} else {
-    		if (dbg)
-    		{
-    			syslog(LOG_INFO, "S16: Malformed\n");
-    		}
-    	}
-	} else {
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S16: Malformed\n");
+			}
+		}
+	}
+	else
+	{
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S16: Format err\n");
 		}
 	}
 }
-
-
-
-
-
-
-
-
 
 #include <arpa/inet.h>
 #include <sys/socket.h>
@@ -1007,8 +1046,7 @@ void parseId16(char *str)
 #include <unistd.h>
 #include <sys/reboot.h>
 
-void getIPInfoStr(char* dstBuff);
-
+void getIPInfoStr(char *dstBuff);
 
 /* Move pointer forward to the first position after the specified number of commas*/
 char *commaParse(char *tempLoc, uint8_t numCommas)
@@ -1018,7 +1056,8 @@ char *commaParse(char *tempLoc, uint8_t numCommas)
 
 	for (index = 0; index < numCommas; index++)
 	{
-		while(*tempLoc++ != ',' && *tempLoc != '*' && maxChars++ < 100);
+		while (*tempLoc++ != ',' && *tempLoc != '*' && maxChars++ < 100)
+			;
 	}
 	return tempLoc;
 }
@@ -1026,75 +1065,73 @@ char *commaParse(char *tempLoc, uint8_t numCommas)
 int copyUntilComma(char *dest, char *src, int num)
 {
 	int count = 0;
-	char* loc = src;
-	while(count < num && *loc != ',' && *loc != 0)
+	char *loc = src;
+	while (count < num && *loc != ',' && *loc != 0)
 	{
 		*(dest + count) = *loc;
 		count++;
 		loc++;
 	}
 	return count;
-
 }
-
 
 void parseId99(char *str)
 {
 
-	if(strncmp(str,"A5A5",4)==0)
+	if (strncmp(str, "A5A5", 4) == 0)
 	{
 		writeRadio("RECEIVED_IP_CHANGE.\r\n");
 		char ipStr[24] = {0};
 		char mskStr[24] = {0};
 		char gtwStr[24] = {0};
 
-		//get incoming string to strings
+		// get incoming string to strings
 		char *loc = str;
-		loc = commaParse(loc,1);
-		int ipLen = copyUntilComma(ipStr,loc,20);
-		loc = commaParse(loc,1);
-		int mskLen = copyUntilComma(mskStr,loc,20);
-		loc = commaParse(loc,1);
-		int gtwLen = copyUntilComma(gtwStr,loc,20);
+		loc = commaParse(loc, 1);
+		int ipLen = copyUntilComma(ipStr, loc, 20);
+		loc = commaParse(loc, 1);
+		int mskLen = copyUntilComma(mskStr, loc, 20);
+		loc = commaParse(loc, 1);
+		int gtwLen = copyUntilComma(gtwStr, loc, 20);
 
 		char addrCheck[24] = {0};
-		memcpy(addrCheck,ipStr,20);
+		memcpy(addrCheck, ipStr, 20);
 		writeRadio(addrCheck);
 		writeRadio("\r\n");
-		memcpy(addrCheck,mskStr,20);
+		memcpy(addrCheck, mskStr, 20);
 		writeRadio(addrCheck);
 		writeRadio("\r\n");
-		memcpy(addrCheck,gtwStr,20);
+		memcpy(addrCheck, gtwStr, 20);
 		writeRadio(addrCheck);
 		writeRadio("\r\n");
 
 		char buffNum[24] = {0};
-		snprintf(buffNum,20,"%i,%i,%i\r\n",ipLen,mskLen,gtwLen);
+		snprintf(buffNum, 20, "%i,%i,%i\r\n", ipLen, mskLen, gtwLen);
 		writeRadio(buffNum);
 
-		memset(&interfaceStr[4][8],0,25);
-		memset(&interfaceStr[5][8],0,25);
-		memset(&interfaceStr[6][8],0,25);
+		memset(&interfaceStr[4][8], 0, 25);
+		memset(&interfaceStr[5][8], 0, 25);
+		memset(&interfaceStr[6][8], 0, 25);
 
-		snprintf(&interfaceStr[4][8],30,"%s\r\n",ipStr);
-		snprintf(&interfaceStr[5][8],30,"%s\r\n",mskStr);
-		snprintf(&interfaceStr[6][8],30,"%s\r\n",gtwStr);
+		snprintf(&interfaceStr[4][8], 30, "%s\r\n", ipStr);
+		snprintf(&interfaceStr[5][8], 30, "%s\r\n", mskStr);
+		snprintf(&interfaceStr[6][8], 30, "%s\r\n", gtwStr);
 
 		int i = 0;
-		while(i < 11)
+		while (i < 11)
 		{
 			writeRadio(&interfaceStr[i][0]);
 			i++;
 		}
 
-		FILE* fp  = fopen("etc/network/interfaces",  "w+");
+		FILE *fp = fopen("etc/network/interfaces", "w+");
 
-		if(fp)
+		if (fp)
 		{
 			i = 0;
-			while(i < 11)
+			while (i < 11)
 			{
-				fprintf(fp,&interfaceStr[i][0]);
+				fprintf(fp, &interfaceStr[i][0]);
 				i++;
 			}
 			fclose(fp);
@@ -1102,8 +1139,6 @@ void parseId99(char *str)
 
 		sync();
 		reboot(RB_AUTOBOOT);
-
-
 	}
 	else
 	{
@@ -1113,89 +1148,78 @@ void parseId99(char *str)
 	}
 }
 
-
-void getIPInfoStr(char* dstBuff)
+void getIPInfoStr(char *dstBuff)
 {
 
+	struct ifaddrs *ifaddr, *ifa;
+	int s;
+	char host[NI_MAXHOST];
 
-
-    struct ifaddrs *ifaddr, *ifa;
-    int s;
-    char host[NI_MAXHOST];
-
-    if (getifaddrs(&ifaddr) == -1)
-    {
-        return;
-    }
-
-
-    for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
-    {
-        if (ifa->ifa_addr == NULL)
-            continue;
-
-        s=getnameinfo(ifa->ifa_addr,sizeof(struct sockaddr_in),host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
-
-        if((strcmp(ifa->ifa_name,"eth0")==0)&&(ifa->ifa_addr->sa_family==AF_INET))
-        {
-            if (s != 0)
-            {
-                return;
-            }
-            char mask[INET_ADDRSTRLEN];
-            void* mask_ptr = &((struct sockaddr_in*) ifa->ifa_netmask)->sin_addr;
-            inet_ntop(AF_INET, mask_ptr, mask, INET_ADDRSTRLEN);
-		char buffTemp[24] = {0};
-		memcpy(buffTemp,host,19);
-                snprintf(dstBuff,29,"$IP:%s,",buffTemp);
-                strncat(dstBuff,mask,28);
-                strncat(dstBuff,",",4);
-        }
-    }
-
-    freeifaddrs(ifaddr);
-
-    FILE *f;
-    char line[100] , *p , *c, *d;
-
-    f = fopen("/proc/net/route" , "r");
-    	if(f != NULL)
+	if (getifaddrs(&ifaddr) == -1)
 	{
-
-    	while(fgets(line , 100 , f))
-    	{
-        	p = strtok(line , " \t");
-        	c = strtok(NULL , " \t");
-        	d = strtok(NULL, " \t");
-
-        	if(p!=NULL && c!=NULL && d != NULL)
-        	{
-                	if(strcmp(c , "00000000") == 0)
-                	{
-                        char *gw;
-                        char g[16] = {0};
-                        memcpy(g,d + 6,2);
-                        memcpy(g+2,d+4,2);
-                        memcpy(g+4,d+2,2);
-                        memcpy(g+6,d,2);
-
-                        struct in_addr addr;
-                        addr.s_addr = htonl(strtoul(g,NULL,16));
-                        gw = inet_ntoa(addr);
-			if(gw != NULL)
-				strncat(dstBuff,gw,20);
-                	}
-        	}
+		return;
 	}
 
-    	}
-        strncat(dstBuff,"\r\n\0",4);
+	for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next)
+	{
+		if (ifa->ifa_addr == NULL)
+			continue;
 
-fclose(f);
+		s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
+
+		if ((strcmp(ifa->ifa_name, "eth0") == 0) && (ifa->ifa_addr->sa_family == AF_INET))
+		{
+			if (s != 0)
+			{
+				return;
+			}
+			char mask[INET_ADDRSTRLEN];
+			void *mask_ptr = &((struct sockaddr_in *)ifa->ifa_netmask)->sin_addr;
+			inet_ntop(AF_INET, mask_ptr, mask, INET_ADDRSTRLEN);
+			char buffTemp[24] = {0};
+			memcpy(buffTemp, host, 19);
+			snprintf(dstBuff, 29, "$IP:%s,", buffTemp);
+			strncat(dstBuff, mask, 28);
+			strncat(dstBuff, ",", 4);
+		}
+	}
+
+	freeifaddrs(ifaddr);
+
+	FILE *f;
+	char line[100], *p, *c, *d;
+
+	f = fopen("/proc/net/route", "r");
+	if (f != NULL)
+	{
+
+		while (fgets(line, 100, f))
+		{
+			p = strtok(line, " \t");
+			c = strtok(NULL, " \t");
+			d = strtok(NULL, " \t");
+
+			if (p != NULL && c != NULL && d != NULL)
+			{
+				if (strcmp(c, "00000000") == 0)
+				{
+					char *gw;
+					char g[16] = {0};
+					memcpy(g, d + 6, 2);
+					memcpy(g + 2, d + 4, 2);
+					memcpy(g + 4, d + 2, 2);
+					memcpy(g + 6, d, 2);
+
+					struct in_addr addr;
+					addr.s_addr = htonl(strtoul(g, NULL, 16));
+					gw = inet_ntoa(addr);
+					if (gw != NULL)
+						strncat(dstBuff, gw, 20);
+				}
+			}
+		}
+	}
+	strncat(dstBuff, "\r\n\0", 4);
+
+	fclose(f);
 }
-
-
-
-
-
-
