@@ -1,6 +1,7 @@
-ns-agent (0.0.2) UNRELEASED; urgency=medium
+ns-agent (0.0.3) UNRELEASED; urgency=medium
 
   * Initial release.
   * 
+  * final checks 
 
- -- jowens <jowens@jowens>  Tue, 10 Feb 2026 10:27:34 -0600
+ -- jowens <jowens@jowens>  Tue, 10 Feb 2026 13:50:44 -0600
