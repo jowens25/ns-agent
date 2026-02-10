@@ -1,3 +1,3 @@
-ns-agent-dbgsym_0.0.3_arm64.deb debug optional automatic=yes
-ns-agent_0.0.3_arm64.buildinfo utils optional
-ns-agent_0.0.3_arm64.deb utils optional
+ns-agent-dbgsym_0.0.4_arm64.deb debug optional automatic=yes
+ns-agent_0.0.4_arm64.buildinfo utils optional
+ns-agent_0.0.4_arm64.deb utils optional
