@@ -2,19 +2,19 @@ Format: 1.0
 Source: ns-agent
 Binary: ns-agent ns-agent-dbgsym
 Architecture: amd64
-Version: 0.0.1
+Version: 0.0.2
 Checksums-Md5:
- 9f726e8c786843fc7a56fcfd1dfcb449 66596 ns-agent-dbgsym_0.0.1_amd64.ddeb
- b729f7a9eb83c33b018f1294d791806b 18410 ns-agent_0.0.1_amd64.deb
+ 10330f693c188f9741be4251730bf2b8 66612 ns-agent-dbgsym_0.0.2_amd64.ddeb
+ 6ec2a9652d89ac29c1df2861f58b8235 18432 ns-agent_0.0.2_amd64.deb
 Checksums-Sha1:
- 7d41ed9db113618b71a991011bdabbe144ae721e 66596 ns-agent-dbgsym_0.0.1_amd64.ddeb
- e767e0562d1b85caf2ffb4a3b2a14e5ac9eb7af2 18410 ns-agent_0.0.1_amd64.deb
+ 2479d9f58a83fc1de6dce6ff0f5ca5c858142533 66612 ns-agent-dbgsym_0.0.2_amd64.ddeb
+ 9190af5ef971543993fff3749d25bb2bec153cd3 18432 ns-agent_0.0.2_amd64.deb
 Checksums-Sha256:
- ec34e1af9cc82b1d3ea019b4b8c00571952e38ed94cab1af31e3fe15d33a6733 66596 ns-agent-dbgsym_0.0.1_amd64.ddeb
- a3749bf67a8bf92644b7f0d7dee4dcb44fba2012895b8cee8644309b948b29cd 18410 ns-agent_0.0.1_amd64.deb
+ c2557b124cfe32c80e56ef8b6c3a688d74f13b9beadd9359badf6efd21c48cc2 66612 ns-agent-dbgsym_0.0.2_amd64.ddeb
+ 9ee1d4b1d96f71b69ce51e1cb4c462bb94872dd39b51cc716db0d99cf29e6cc3 18432 ns-agent_0.0.2_amd64.deb
 Build-Origin: Ubuntu
 Build-Architecture: amd64
-Build-Date: Tue, 10 Feb 2026 09:17:07 -0600
+Build-Date: Tue, 10 Feb 2026 10:27:45 -0600
 Build-Tainted-By:
  merged-usr-via-aliased-dirs
  usr-local-has-programs
@@ -174,4 +174,4 @@ Environment:
  DEB_BUILD_OPTIONS="parallel=24"
  DEB_BUILD_PROFILES="noudeb"
  LANG="en_US.UTF-8"
- SOURCE_DATE_EPOCH="1770735695"
+ SOURCE_DATE_EPOCH="1770740854"
