@@ -142,7 +142,7 @@ int radioIFStart()
         memset(&addr, 0, sizeof(addr));
 
         addr.sun_family = AF_UNIX;
-        strncpy(addr.sun_path, "/run/ns/ns-serial-mux.sock", sizeof(addr.sun_path) - 1);
+        strncpy(addr.sun_path, "/var/lib/ns/ns-serial-mux.sock", sizeof(addr.sun_path) - 1);
 
         if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) == -1)
         {
