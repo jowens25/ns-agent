@@ -1,0 +1,11 @@
+Source: ns-agent
+Section: utils
+Priority: optional
+Maintainer: Jacob Owens <jowens@novuspower.com>
+Build-Depends: debhelper-compat (=12), gcc, libc6-dev
+Standards-Version: 4.6.0
+
+Package: ns-agent
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Novus SNMP Agent

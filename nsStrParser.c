@@ -1131,7 +1131,7 @@ void parseId99(char *str)
 			i = 0;
 			while (i < 11)
 			{
-				fprintf(fp, &interfaceStr[i][0]);
+				fprintf(fp, "%s", &interfaceStr[i][0]);
 				i++;
 			}
 			fclose(fp);

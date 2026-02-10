@@ -20,22 +20,32 @@ endif
 -include ../makefile.defs
 
 # Add inputs and outputs from these tool invocations to the build variables 
+PREFIX ?= /usr
+DESTDIR ?=
+
+TARGET = ns-agent
 
 # All Target
-all: nsAgent
+all: ns-agent
 
 # Tool invocations
-nsAgent: $(OBJS) $(USER_OBJS)
+ns-agent: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C Linker'
-	gcc -ggdb -L/lib/aarch64-linux-gnu -L/usr/lib/aarch64-linux-gnu -o "nsAgent" $(OBJS) $(USER_OBJS) $(LIBS) -lrt
+	gcc -ggdb -L/lib/aarch64-linux-gnu -L/usr/lib/aarch64-linux-gnu -o "ns-agent" $(OBJS) $(USER_OBJS) $(LIBS) -lrt
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) nsAgent
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) ns-agent
 	-@echo ' '
+
+
+
+install: $(TARGET)
+	install -D -m 755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
+	install -D -m 644 ns-agent.conf $(DESTDIR)/etc/ns/ns-agent.conf
 
 .PHONY: all clean dependents
 
