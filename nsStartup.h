@@ -36,7 +36,7 @@
 #define SYSTEM_NAME	"Novus NR"
 #define DEVICE_NAME_LEN 256
 
-#define CONFIG_FILE "/etc/nsagent.conf"
+#define CONFIG_FILE "/etc/ns/ns-agent.conf"
 
 #define RESULT_MAX_LEN 254
 

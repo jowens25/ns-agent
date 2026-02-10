@@ -191,7 +191,7 @@ int main (int argc, char **argv)
 
   commandResultStr[0] = 0;
 
-  /* Seek out and handle the configuration file located at: /etc/nsagent.conf */
+  /* Seek out and handle the configuration file located at: /etc/ns/ns-agent.conf */
 
   if (!agentConfigFile())
   {
@@ -275,7 +275,7 @@ int main (int argc, char **argv)
 * Input          : None
 * Output         : 0 = No error, 1 = Error
 * Description    : Reads the nsAgent configuration
-* 	file located at /etc/nsagent.conf.  The config
+* 	file located at /etc/ns/ns-agent.conf.  The config
 * 	file locates the serial port of NMEA data and
 * 	radio data.   It also specifies the GPIO to use
 * 	for PPS signalling.
