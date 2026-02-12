@@ -2,8 +2,8 @@ Package: ns-agent
 Version: 0.0.4
 Architecture: arm64
 Maintainer: Jacob Owens <jowens@novuspower.com>
-Installed-Size: 96
-Depends: libc6 (>= 2.17), libsnmp40 (>= 5.9+dfsg)
+Installed-Size: 152
+Depends: libc6 (>= 2.34), libsnmp40 (>= 5.9.3+dfsg)
 Section: utils
 Priority: optional
 Description: Novus SNMP Agent

@@ -19,14 +19,14 @@ Changes:
    * updated paths
    * package
 Checksums-Sha1:
- d0533850a2237bd8fb0c4d9c72653042cb4f12ea 72616 ns-agent-dbgsym_0.0.4_arm64.deb
- fe25f329acc684c105b700352fbbcccd5a4ade25 5172 ns-agent_0.0.4_arm64.buildinfo
- 9645855c8de1040c358af9cac43c93151f3e5180 18468 ns-agent_0.0.4_arm64.deb
+ 29f7bf5d756faaa514a0a9ede792105fd60ebd9a 74968 ns-agent-dbgsym_0.0.4_arm64.deb
+ d587ba0d88b95c4b7037228697537bcc96093347 5446 ns-agent_0.0.4_arm64.buildinfo
+ e3113e3ada2135722ffd8804c211eae1829e4a24 18420 ns-agent_0.0.4_arm64.deb
 Checksums-Sha256:
- 2bbb87ad392976b3d72158fb440128bf80290ba455bd2af597d67f846e147a70 72616 ns-agent-dbgsym_0.0.4_arm64.deb
- 66f2da6c4ed8b820a9ef83e2f32e784f4763fb36d17c886a5199c9fd4077a9e5 5172 ns-agent_0.0.4_arm64.buildinfo
- c4831c2bcb1ee60dc58ffb8fb8117b7e9a24499bdfc87b3bbcc48f44875624f5 18468 ns-agent_0.0.4_arm64.deb
+ e151c0d46da0e7a32873d53158336b8a0fbeaaad8c1fbaeee1777ce351ed7630 74968 ns-agent-dbgsym_0.0.4_arm64.deb
+ 3b73b0cbf39f636f34bc84e8be1c1af7baa94f20edaea49d8b6708e638ff503a 5446 ns-agent_0.0.4_arm64.buildinfo
+ 80ff601c00515cd3f2a15a19db4fbce818619c36ab669268b6dbb69b6fcfac31 18420 ns-agent_0.0.4_arm64.deb
 Files:
- 815c0949831a7a08b801e9a99379914e 72616 debug optional ns-agent-dbgsym_0.0.4_arm64.deb
- 50ae0c0753ff4d5d86e8a6b07838a6ff 5172 utils optional ns-agent_0.0.4_arm64.buildinfo
- 8a7e97ca3da08db10d88c0554babfaa1 18468 utils optional ns-agent_0.0.4_arm64.deb
+ b7b14417463b606678c694fef67f1a53 74968 debug optional ns-agent-dbgsym_0.0.4_arm64.deb
+ 9ebe0231233e69f9fcb8c908b018d158 5446 utils optional ns-agent_0.0.4_arm64.buildinfo
+ dc02ed43d83aa22039acd3e121039c22 18420 utils optional ns-agent_0.0.4_arm64.deb
