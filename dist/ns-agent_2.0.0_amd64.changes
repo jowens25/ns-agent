@@ -22,13 +22,13 @@ Changes:
    * added post install and snmpd depends
 Checksums-Sha1:
  eb27b59d0ce64ed49346bd900f0bc5b4593d5212 66684 ns-agent-dbgsym_2.0.0_amd64.ddeb
- 32c095ce20e8cc3fa171269559bf183db9ca79ea 6265 ns-agent_2.0.0_amd64.buildinfo
- e95e10920c99dabd2505b4b154f4143ed88e18aa 23216 ns-agent_2.0.0_amd64.deb
+ 62e934ea6e24a1d1507d06e853613b8d246d049f 6265 ns-agent_2.0.0_amd64.buildinfo
+ d7828164e7a3fc29f00b288ddc5dda16659362c5 23456 ns-agent_2.0.0_amd64.deb
 Checksums-Sha256:
  2335a1de781eaf7d89682f9fff32c6f2e154e00b51ef26947401250e0cb124e2 66684 ns-agent-dbgsym_2.0.0_amd64.ddeb
- bdf86e8f88733700c2058ba99b4c5e8199336269401b785426e347db930129d4 6265 ns-agent_2.0.0_amd64.buildinfo
- eb6fef5a5bbe6b2f1302448c3049418ff9e2986ced4264b9a49c8cd3f2a6240f 23216 ns-agent_2.0.0_amd64.deb
+ 800148b9bb1670a09494903781fbe8293baa1d8849a69c0edd4581904eec09ef 6265 ns-agent_2.0.0_amd64.buildinfo
+ 7f6d7e9d923408ab3ecfb2f731b329fb8c0d408e4cab8a33bc1abe03075e8fc2 23456 ns-agent_2.0.0_amd64.deb
 Files:
  1ced1086287ee15b30f2b79a7fbc1c87 66684 debug optional ns-agent-dbgsym_2.0.0_amd64.ddeb
- 8bf3824b46bc17ac6a4a3238e483d299 6265 utils optional ns-agent_2.0.0_amd64.buildinfo
- 953b628ee7a73159fffd85aded8d5247 23216 utils optional ns-agent_2.0.0_amd64.deb
+ 936909a31701d4daaf9a8b0d0d3ba972 6265 utils optional ns-agent_2.0.0_amd64.buildinfo
+ d793be90c0426c2cfe0b34ac48b989ff 23456 utils optional ns-agent_2.0.0_amd64.deb

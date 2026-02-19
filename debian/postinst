@@ -3,16 +3,26 @@ set -e
 
 case "$1" in
     configure)
-                
-        # Restart snmpd
-        systemctl restart snmpd 2>/dev/null || true
-        ;;
-    
-    abort-upgrade|abort-remove|abort-deconfigure)
-        # Handle failure cases
+        # Comment out everything in snmpd.conf except the includeDir line
+        if [ -f /etc/snmp/snmpd.conf ]; then
+            # Create a backup
+            cp /etc/snmp/snmpd.conf /etc/snmp/snmpd.conf.dpkg-old
+            
+            # Comment out all non-comment lines except includeDir
+            sed -i '/^[[:space:]]*#/!{/^[[:space:]]*$/!{/^[[:space:]]*includeDir/!s/^/#/}}' /etc/snmp/snmpd.conf
+            
+            # Set proper permissions
+            chmod 600 /etc/snmp/snmpd.conf
+            chown root:root /etc/snmp/snmpd.conf
+        fi
+        
+        # Restart snmpd service
+        if systemctl is-active --quiet snmpd 2>/dev/null; then
+            systemctl restart snmpd || true
+        elif [ -x /etc/init.d/snmpd ]; then
+            invoke-rc.d snmpd restart || true
+        fi
         ;;
 esac
 
 #DEBHELPER#
-
-exit 0
