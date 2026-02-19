@@ -1,0 +1,34 @@
+Format: 1.8
+Date: Thu, 19 Feb 2026 11:05:23 -0600
+Source: ns-agent
+Binary: ns-agent
+Built-For-Profiles: noudeb
+Architecture: amd64
+Version: 2.0.0
+Distribution: UNRELEASED
+Urgency: medium
+Maintainer: Jacob Owens <jowens@novuspower.com>
+Changed-By: jowens <jowens@jowens>
+Description:
+ ns-agent   - Novus SNMP Agent
+Changes:
+ ns-agent (2.0.0) UNRELEASED; urgency=medium
+ .
+   * Initial release.
+   *
+   * final checks
+   * updated paths
+   * package
+   * added post install and snmpd depends
+Checksums-Sha1:
+ eb27b59d0ce64ed49346bd900f0bc5b4593d5212 66684 ns-agent-dbgsym_2.0.0_amd64.ddeb
+ 3ebd0cd3a8983a5ad6db33e422b46d90f934fb5a 6265 ns-agent_2.0.0_amd64.buildinfo
+ a4a7ed347b252fe664eb5892c48b2ab30c0b573e 18762 ns-agent_2.0.0_amd64.deb
+Checksums-Sha256:
+ 2335a1de781eaf7d89682f9fff32c6f2e154e00b51ef26947401250e0cb124e2 66684 ns-agent-dbgsym_2.0.0_amd64.ddeb
+ 1a8d28b9252d599021961327277f132e26259a14480ae578bd52e27841b45f47 6265 ns-agent_2.0.0_amd64.buildinfo
+ 6186b2fb8c256eb9e88834825e36f85e0375aabeed4fefe9aab74700e66b3186 18762 ns-agent_2.0.0_amd64.deb
+Files:
+ 1ced1086287ee15b30f2b79a7fbc1c87 66684 debug optional ns-agent-dbgsym_2.0.0_amd64.ddeb
+ 51e7c183d301408e82b34927664e1cf1 6265 utils optional ns-agent_2.0.0_amd64.buildinfo
+ 80f69c8a66267d6130006fe45c700eed 18762 utils optional ns-agent_2.0.0_amd64.deb

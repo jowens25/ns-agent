@@ -46,6 +46,8 @@ clean:
 install: $(TARGET)
 	install -D -m 755 $(TARGET) $(DESTDIR)$(PREFIX)/bin/$(TARGET)
 	install -D -m 644 ns-agent.conf $(DESTDIR)/etc/ns/ns-agent.conf
+	install -D -m 644 snmpd.conf $(DESTDIR)/etc/snmp/snmpd.conf
+	install -D -m 644 NOVUS-SECURE-MIB_REV1.2.mib $(DESTDIR)/usr/share/snmp/mibs/NOVUS-SECURE-MIB_REV1.2.mib
 
 .PHONY: all clean dependents
 

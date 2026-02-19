@@ -1,3 +1,3 @@
-832b265a5b9489740088f5c6cedd7058  lib/systemd/system/ns-agent.service
-8e9cd8c34b79befac4b9a5f17d5e002c  usr/bin/ns-agent
-d3f19fd240e82126a45226e913ecd471  usr/share/doc/ns-agent/changelog.gz
+d6014c3b9dc996fa30b71761d84f86f5  usr/bin/ns-agent
+6400db117f1ea48727ef445dcb6a501e  usr/lib/systemd/system/ns-agent.service
+944ff057e38aa575539f60d53f02933a  usr/share/doc/ns-agent/changelog.gz
