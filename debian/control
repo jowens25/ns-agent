@@ -8,4 +8,5 @@ Standards-Version: 4.6.0
 Package: ns-agent
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, snmpd
+#Pre-Depends: snmpd
 Description: Novus SNMP Agent

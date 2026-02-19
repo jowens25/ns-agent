@@ -3,16 +3,7 @@ set -e
 
 case "$1" in
     configure)
-        # Divert the original snmpd.conf away
-        if [ ! -e /etc/snmp/snmpd.conf.original ]; then
-            dpkg-divert --package ns-agent --add --rename \
-                --divert /etc/snmp/snmpd.conf.original \
-                /etc/snmp/snmpd.conf
-        fi
-        
-
-        cp /etc/snmp/snmpd.conf.default /etc/snmp/snmpd.conf
-        
+                
         # Restart snmpd
         systemctl restart snmpd 2>/dev/null || true
         ;;
