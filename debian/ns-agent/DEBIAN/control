@@ -1,5 +1,5 @@
 Package: ns-agent
-Version: 2.0.2
+Version: 2.0.3
 Architecture: arm64
 Maintainer: Jacob Owens <jowens@novuspower.com>
 Installed-Size: 191

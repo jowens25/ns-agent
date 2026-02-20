@@ -1,0 +1,36 @@
+Format: 1.8
+Date: Fri, 20 Feb 2026 15:28:37 -0600
+Source: ns-agent
+Binary: ns-agent ns-agent-dbgsym
+Architecture: arm64
+Version: 2.0.3
+Distribution: UNRELEASED
+Urgency: medium
+Maintainer: Jacob Owens <jowens@novuspower.com>
+Changed-By: jowens <jowens@jowens>
+Description:
+ ns-agent   - Novus SNMP Agent
+Changes:
+ ns-agent (2.0.3) UNRELEASED; urgency=medium
+ .
+   * Initial release.
+   *
+   * final checks
+   * updated paths
+   * package
+   * added post install and snmpd depends
+   * updated snmp paths and files
+   * added network manager api
+   * found a buffer overflow killing the service
+Checksums-Sha1:
+ 1c8105e514f9b2794499135ace8c791ccfcbbba9 79740 ns-agent-dbgsym_2.0.3_arm64.deb
+ 0177760e4c5a21345a9c2ee159bae30165fbc53d 5267 ns-agent_2.0.3_arm64.buildinfo
+ c3d71a0e8bcb8882797d42fa0089977bb0cf7be0 24776 ns-agent_2.0.3_arm64.deb
+Checksums-Sha256:
+ 107e0ac08960933e06ccbf3e626068422e0db47ef2d27659c04532e9a62f0039 79740 ns-agent-dbgsym_2.0.3_arm64.deb
+ c20d73ee30a0a62658984ce208ec0c6e4a477ed6680d7ae93bac4531807b4914 5267 ns-agent_2.0.3_arm64.buildinfo
+ 57710c92d1e8544fbb9ae84742b0f9f056af564470a052146cc5f81cfb480f3f 24776 ns-agent_2.0.3_arm64.deb
+Files:
+ 9a3d30d764e90255f3191e2b218767cf 79740 debug optional ns-agent-dbgsym_2.0.3_arm64.deb
+ bdb2a46b85cb60921a976824c1fe675f 5267 utils optional ns-agent_2.0.3_arm64.buildinfo
+ bfee8abda3112d4e19a5249e2fb4d076 24776 utils optional ns-agent_2.0.3_arm64.deb
