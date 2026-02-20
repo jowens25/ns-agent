@@ -1112,14 +1112,15 @@ void parseId99(char *str)
 		char buffNum[24] = {0};
 		snprintf(buffNum, 20, "%i,%i,%i\r\n", ipLen, mskLen, gtwLen);
 		writeRadio(buffNum);
-
+		// after this point buffer overflow...
 		memset(&interfaceStr[4][8], 0, 25);
 		memset(&interfaceStr[5][8], 0, 25);
 		memset(&interfaceStr[6][8], 0, 25);
 
-		snprintf(&interfaceStr[4][8], 30, "%s\r\n", ipStr);
-		snprintf(&interfaceStr[5][8], 30, "%s\r\n", mskStr);
-		snprintf(&interfaceStr[6][8], 30, "%s\r\n", gtwStr);
+		// i think we
+		snprintf(&interfaceStr[4][8], 28, "%s\r\n", ipStr);
+		snprintf(&interfaceStr[5][8], 28, "%s\r\n", mskStr);
+		snprintf(&interfaceStr[6][8], 28, "%s\r\n", gtwStr);
 
 
 		addAndActivate(ipStr, mskStr, gtwStr);
@@ -1130,7 +1131,8 @@ void parseId99(char *str)
 			writeRadio(&interfaceStr[i][0]);
 			i++;
 		}
-
+		
+		/* removed and implemented with network manager....
 		FILE *fp = fopen("etc/network/interfaces", "w+");
 
 		if (fp)
@@ -1143,6 +1145,7 @@ void parseId99(char *str)
 			}
 			fclose(fp);
 		}
+		*/
 
 		sync();
 		reboot(RB_AUTOBOOT);
