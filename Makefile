@@ -25,6 +25,14 @@ DESTDIR ?=
 
 TARGET = ns-agent
 
+
+PKG_CFLAGS := $(shell pkg-config --cflags glib-2.0 libnm)
+PKG_LIBS   := $(shell pkg-config --libs glib-2.0 libnm)
+
+CFLAGS += $(PKG_CFLAGS)
+LIBS   += $(PKG_LIBS)
+
+
 # All Target
 all: ns-agent
 

@@ -1,4 +1,4 @@
-6400db117f1ea48727ef445dcb6a501e  lib/systemd/system/ns-agent.service
-39350d3ee54696c54c24f769a073a4ee  usr/bin/ns-agent
-08b3f76abea21da7cfaeded69ff3f4a4  usr/share/doc/ns-agent/changelog.gz
+9992e0509bfa6cdd4c2ab8342615192d  usr/bin/ns-agent
+6400db117f1ea48727ef445dcb6a501e  usr/lib/systemd/system/ns-agent.service
+8c8ab132f85d78ab0223465d2d523a4f  usr/share/doc/ns-agent/changelog.gz
 91268e2031780de396f64191539f5bd3  usr/share/snmp/mibs/NOVUS-SECURE-MIB_REV1.2.mib
