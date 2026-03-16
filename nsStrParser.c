@@ -28,8 +28,6 @@
 #include "nsStr.h"
 #include "nsStartup.h"
 
-
-
 extern int dbg;
 
 void parseId1(char *str);
@@ -49,7 +47,7 @@ void parseId15(char *str);
 void parseId16(char *str);
 void parseId99(char *str);
 
-int addAndActivate(char * ip, char * nm, char *gw);
+int addAndActivate(char *ip, char *nm, char *gw);
 
 bool chksum(char *str, int cs);
 
@@ -1122,7 +1120,6 @@ void parseId99(char *str)
 		snprintf(&interfaceStr[5][8], 28, "%s\r\n", mskStr);
 		snprintf(&interfaceStr[6][8], 28, "%s\r\n", gtwStr);
 
-
 		addAndActivate(ipStr, mskStr, gtwStr);
 
 		int i = 0;
@@ -1131,7 +1128,7 @@ void parseId99(char *str)
 			writeRadio(&interfaceStr[i][0]);
 			i++;
 		}
-		
+
 		/* removed and implemented with network manager....
 		FILE *fp = fopen("etc/network/interfaces", "w+");
 
@@ -1225,6 +1222,7 @@ void getIPInfoStr(char *dstBuff)
 					gw = inet_ntoa(addr);
 					if (gw != NULL)
 						strncat(dstBuff, gw, 20);
+					break; // jo
 				}
 			}
 		}
@@ -1234,9 +1232,6 @@ void getIPInfoStr(char *dstBuff)
 	fclose(f);
 }
 
-
-
-
 #include <glib.h>
 #include <NetworkManager.h>
 #include <stdio.h>
@@ -1244,182 +1239,182 @@ void getIPInfoStr(char *dstBuff)
 
 typedef struct
 {
-    GMainLoop *loop;
-    int success;
+	GMainLoop *loop;
+	int success;
 } CallbackData;
 
 static void
 add_and_activate_cb(GObject *client,
-                    GAsyncResult *result,
-                    gpointer user_data)
+					GAsyncResult *result,
+					gpointer user_data)
 {
-    CallbackData *data = (CallbackData *)user_data;
-    NMActiveConnection *active_conn;
-    GError *error = NULL;
+	CallbackData *data = (CallbackData *)user_data;
+	NMActiveConnection *active_conn;
+	GError *error = NULL;
 
-    active_conn = nm_client_add_and_activate_connection_finish(NM_CLIENT(client), result, &error);
+	active_conn = nm_client_add_and_activate_connection_finish(NM_CLIENT(client), result, &error);
 
-    if (error)
-    {
-        fprintf(stderr, "Failed to add and activate connection: %s\n", error->message);
-        g_error_free(error);
-        data->success = 0;
-    }
-    else
-    {
-        printf("Connection added and activated successfully!\n");
-        printf("Active connection path: %s\n",
-               nm_object_get_path(NM_OBJECT(active_conn)));
-        g_object_unref(active_conn);
-        data->success = 1;
-    }
+	if (error)
+	{
+		fprintf(stderr, "Failed to add and activate connection: %s\n", error->message);
+		g_error_free(error);
+		data->success = 0;
+	}
+	else
+	{
+		printf("Connection added and activated successfully!\n");
+		printf("Active connection path: %s\n",
+			   nm_object_get_path(NM_OBJECT(active_conn)));
+		g_object_unref(active_conn);
+		data->success = 1;
+	}
 
-    g_main_loop_quit(data->loop);
+	g_main_loop_quit(data->loop);
 }
 
 int addAndActivate(char *ip, char *nm, char *gw)
 {
 
-    NMClient *client;
-    NMConnection *connection;
-    NMSettingConnection *s_con;
-    NMSettingWired *s_wired;
-    NMSettingIPConfig *s_ip4;
-    NMIPAddress *addr;
-    NMDevice *device;
-    GError *error = NULL;
-    const GPtrArray *devices;
-    GMainLoop *loop;
-    CallbackData callback_data;
+	NMClient *client;
+	NMConnection *connection;
+	NMSettingConnection *s_con;
+	NMSettingWired *s_wired;
+	NMSettingIPConfig *s_ip4;
+	NMIPAddress *addr;
+	NMDevice *device;
+	GError *error = NULL;
+	const GPtrArray *devices;
+	GMainLoop *loop;
+	CallbackData callback_data;
 
-    client = nm_client_new(NULL, &error);
-    if (!client)
-    {
-        fprintf(stderr, "Failed to create NM client: %s\n", error->message);
-        g_error_free(error);
-        return 1;
-    }
+	client = nm_client_new(NULL, &error);
+	if (!client)
+	{
+		fprintf(stderr, "Failed to create NM client: %s\n", error->message);
+		g_error_free(error);
+		return 1;
+	}
 
-    device = NULL;
-    devices = nm_client_get_devices(client);
+	device = NULL;
+	devices = nm_client_get_devices(client);
 
-    for (int i = 0; i < devices->len; i++)
-    {
-        NMDevice *dev = g_ptr_array_index(devices, i);
-        if (NM_IS_DEVICE_ETHERNET(dev))
-        {
-            device = dev;
-            printf("Found Ethernet device: %s\n", nm_device_get_iface(dev));
-            break;
-        }
-    }
+	for (int i = 0; i < devices->len; i++)
+	{
+		NMDevice *dev = g_ptr_array_index(devices, i);
+		if (NM_IS_DEVICE_ETHERNET(dev))
+		{
+			device = dev;
+			printf("Found Ethernet device: %s\n", nm_device_get_iface(dev));
+			break;
+		}
+	}
 
-    if (!device)
-    {
-        fprintf(stderr, "No Ethernet device found\n");
-        g_object_unref(client);
-        return 1;
-    }
+	if (!device)
+	{
+		fprintf(stderr, "No Ethernet device found\n");
+		g_object_unref(client);
+		return 1;
+	}
 
-    char *uuid_str = nm_utils_uuid_generate();
-    printf("Setting %s at %s with %s\n", ip, gw, nm);
-    printf("uuid: %s\n", uuid_str);
+	char *uuid_str = nm_utils_uuid_generate();
+	printf("Setting %s at %s with %s\n", ip, gw, nm);
+	printf("uuid: %s\n", uuid_str);
 
-    connection = nm_simple_connection_new();
+	connection = nm_simple_connection_new();
 
-    s_con = (NMSettingConnection *)nm_setting_connection_new();
+	s_con = (NMSettingConnection *)nm_setting_connection_new();
 
-    g_object_set(s_con,
-                 NM_SETTING_CONNECTION_ID, "eth0",
-                 NM_SETTING_CONNECTION_UUID, uuid_str,
-                 NM_SETTING_CONNECTION_TYPE, NM_SETTING_WIRED_SETTING_NAME,
-                 NM_SETTING_CONNECTION_AUTOCONNECT, TRUE,
-                 NM_SETTING_CONNECTION_INTERFACE_NAME, nm_device_get_iface(device),
-                 NULL);
+	g_object_set(s_con,
+				 NM_SETTING_CONNECTION_ID, "eth0",
+				 NM_SETTING_CONNECTION_UUID, uuid_str,
+				 NM_SETTING_CONNECTION_TYPE, NM_SETTING_WIRED_SETTING_NAME,
+				 NM_SETTING_CONNECTION_AUTOCONNECT, TRUE,
+				 NM_SETTING_CONNECTION_INTERFACE_NAME, nm_device_get_iface(device),
+				 NULL);
 
-    nm_connection_add_setting(connection, NM_SETTING(s_con));
+	nm_connection_add_setting(connection, NM_SETTING(s_con));
 
-    s_wired = (NMSettingWired *)nm_setting_wired_new();
-    nm_connection_add_setting(connection, NM_SETTING(s_wired));
+	s_wired = (NMSettingWired *)nm_setting_wired_new();
+	nm_connection_add_setting(connection, NM_SETTING(s_wired));
 
-    s_ip4 = (NMSettingIPConfig *)nm_setting_ip4_config_new();
+	s_ip4 = (NMSettingIPConfig *)nm_setting_ip4_config_new();
 
-    g_object_set(s_ip4,
-                 NM_SETTING_IP_CONFIG_METHOD, NM_SETTING_IP4_CONFIG_METHOD_MANUAL,
-                 NULL);
+	g_object_set(s_ip4,
+				 NM_SETTING_IP_CONFIG_METHOD, NM_SETTING_IP4_CONFIG_METHOD_MANUAL,
+				 NULL);
 
-    int n;
-    inet_pton(AF_INET, nm, &n);
-    int prefix = 0;
+	int n;
+	inet_pton(AF_INET, nm, &n);
+	int prefix = 0;
 
-    while (n > 0) {
-            n = n >> 1;
-            prefix++;
-    }
+	while (n > 0)
+	{
+		n = n >> 1;
+		prefix++;
+	}
 
-    printf("prefix: %d\n", prefix);
+	printf("prefix: %d\n", prefix);
 
-    // Use the calculated prefix
-    addr = nm_ip_address_new(AF_INET, ip, prefix, &error);
-    if (error)
-    {
-        fprintf(stderr, "Failed to create IP address: %s\n", error->message);
-        g_error_free(error);
-        g_object_unref(connection);
-        g_object_unref(client);
-        g_free(uuid_str);
-        return 1;
-    }
-    nm_setting_ip_config_add_address(s_ip4, addr);
-    nm_ip_address_unref(addr);
+	// Use the calculated prefix
+	addr = nm_ip_address_new(AF_INET, ip, prefix, &error);
+	if (error)
+	{
+		fprintf(stderr, "Failed to create IP address: %s\n", error->message);
+		g_error_free(error);
+		g_object_unref(connection);
+		g_object_unref(client);
+		g_free(uuid_str);
+		return 1;
+	}
+	nm_setting_ip_config_add_address(s_ip4, addr);
+	nm_ip_address_unref(addr);
 
-    // Set gateway
-    g_object_set(s_ip4,
-                 NM_SETTING_IP_CONFIG_GATEWAY, gw,
-                 NULL);
+	// Set gateway
+	g_object_set(s_ip4,
+				 NM_SETTING_IP_CONFIG_GATEWAY, gw,
+				 NULL);
 
-    // Optional: Add DNS servers
-    nm_setting_ip_config_add_dns(s_ip4, "8.8.8.8");
-    nm_setting_ip_config_add_dns(s_ip4, "8.8.4.4");
+	// Optional: Add DNS servers
+	nm_setting_ip_config_add_dns(s_ip4, "8.8.8.8");
+	nm_setting_ip_config_add_dns(s_ip4, "8.8.4.4");
 
-    nm_connection_add_setting(connection, NM_SETTING(s_ip4));
+	nm_connection_add_setting(connection, NM_SETTING(s_ip4));
 
-    // Verify the connection is valid
-    if (!nm_connection_verify(connection, &error))
-    {
-        fprintf(stderr, "Connection verification failed: %s\n", error->message);
-        g_error_free(error);
-        g_object_unref(connection);
-        g_object_unref(client);
-        g_free(uuid_str);
-        return 1;
-    }
-    printf("Adding and activating connection...\n");
+	// Verify the connection is valid
+	if (!nm_connection_verify(connection, &error))
+	{
+		fprintf(stderr, "Connection verification failed: %s\n", error->message);
+		g_error_free(error);
+		g_object_unref(connection);
+		g_object_unref(client);
+		g_free(uuid_str);
+		return 1;
+	}
+	printf("Adding and activating connection...\n");
 
-    // Create GMainLoop
-    loop = g_main_loop_new(NULL, FALSE);
-    callback_data.loop = loop;
-    callback_data.success = 0;
+	// Create GMainLoop
+	loop = g_main_loop_new(NULL, FALSE);
+	callback_data.loop = loop;
+	callback_data.success = 0;
 
-    // Call async function with callback
-    nm_client_add_and_activate_connection_async(
-        client,
-        connection,
-        device,
-        NULL,                // specific_object
-        NULL,                // cancellable
-        add_and_activate_cb, // callback function
-        &callback_data);     // user_data
+	// Call async function with callback
+	nm_client_add_and_activate_connection_async(
+		client,
+		connection,
+		device,
+		NULL,				 // specific_object
+		NULL,				 // cancellable
+		add_and_activate_cb, // callback function
+		&callback_data);	 // user_data
 
-    // Run the main loop - this blocks until callback calls g_main_loop_quit()
-    g_main_loop_run(loop);
+	// Run the main loop - this blocks until callback calls g_main_loop_quit()
+	g_main_loop_run(loop);
 
-    // Cleanup
-    g_main_loop_unref(loop);
-    g_object_unref(connection);
-    g_object_unref(client);
-    g_free(uuid_str);
+	// Cleanup
+	g_main_loop_unref(loop);
+	g_object_unref(connection);
+	g_object_unref(client);
+	g_free(uuid_str);
 
-    return callback_data.success ? 0 : 1;
+	return callback_data.success ? 0 : 1;
 }
-
