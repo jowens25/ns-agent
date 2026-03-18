@@ -1,5 +1,6 @@
-ns-agent (2.0.4) UNRELEASED; urgency=medium
+ns-agent (2.0.6) UNRELEASED; urgency=medium
 
+  [ jowens ]
   * Initial release.
   * 
   * final checks 
@@ -11,4 +12,8 @@ ns-agent (2.0.4) UNRELEASED; urgency=medium
   * found a buffer overflow killing the service 
   * 2.0.4 - init internal release
 
- -- jowens <jowens@jowens>  Thu, 26 Feb 2026 09:47:54 -0600
+  [ root ]
+  * fix service file?
+  * added break 
+
+ -- root <root@rockpro64>  Mon, 16 Mar 2026 08:17:23 -0500
