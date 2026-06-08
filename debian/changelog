@@ -1,19 +1,5 @@
-ns-agent (2.0.6) UNRELEASED; urgency=medium
+ns-agent (2.0.8) UNRELEASED; urgency=medium
+  [jowens]
+  * added log to socket EOF
 
-  [ jowens ]
-  * Initial release.
-  * 
-  * final checks 
-  * updated paths 
-  * package 
-  * added post install and snmpd depends
-  * updated snmp paths and files 
-  * added network manager api
-  * found a buffer overflow killing the service 
-  * 2.0.4 - init internal release
-
-  [ root ]
-  * fix service file?
-  * added break 
-
- -- root <root@rockpro64>  Mon, 16 Mar 2026 08:17:23 -0500
+ -- jowens <jowens@jowens>  Mon, 08 Jun 2026 11:10:41 -0500
