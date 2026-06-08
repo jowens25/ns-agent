@@ -1,5 +1,7 @@
-ns-agent (2.0.8) UNRELEASED; urgency=medium
+ns-agent (2.0.10) UNRELEASED; urgency=medium
   [jowens]
   * added log to socket EOF
+  * added exit on eof
+  * updated service file 
 
- -- jowens <jowens@jowens>  Mon, 08 Jun 2026 11:10:41 -0500
+ -- jowens <jowens@jowens>  Mon, 08 Jun 2026 11:22:52 -0500

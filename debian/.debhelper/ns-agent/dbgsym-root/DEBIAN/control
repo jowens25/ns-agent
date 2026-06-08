@@ -1,13 +1,13 @@
 Package: ns-agent-dbgsym
 Package-Type: ddeb
 Source: ns-agent
-Version: 2.0.8
+Version: 2.0.10
 Auto-Built-Package: debug-symbols
 Architecture: amd64
 Maintainer: Jacob Owens <jowens@novuspower.com>
 Installed-Size: 107
-Depends: ns-agent (= 2.0.8)
+Depends: ns-agent (= 2.0.10)
 Section: debug
 Priority: optional
 Description: debug symbols for ns-agent
-Build-Ids: 1acf64b3afd274092007a86803b67c0f2e7977c0
+Build-Ids: f31ecc6b781519e9ec57a4d4b9535777d2483d61
