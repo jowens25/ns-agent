@@ -566,6 +566,7 @@ int getSerLine(int fd, char *buf, int buflen)
 			if (nbytes == 0)
 			{
 				syslog(LOG_INFO, "SOCKET CLOSED (EOF) 0==n\n");
+				closelog();
 				exit(EXIT_FAILURE);
 			}
 		} while (pos < (buflen - 1) && c != 0x0a);
