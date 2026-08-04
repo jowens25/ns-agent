@@ -1145,7 +1145,7 @@ void parseId99(char *str)
 		*/
 
 		sync();
-		reboot(RB_AUTOBOOT);
+		// reboot(RB_AUTOBOOT);
 	}
 	else
 	{
