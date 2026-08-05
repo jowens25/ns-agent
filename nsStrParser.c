@@ -1048,6 +1048,10 @@ void parseId16(char *str)
 #include <unistd.h>
 #include <sys/reboot.h>
 
+#include <glib.h>
+#include <NetworkManager.h>
+#include <stdio.h>
+#include <arpa/inet.h>
 void getIPInfoStr(char *dstBuff);
 
 /* Move pointer forward to the first position after the specified number of commas*/
