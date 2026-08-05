@@ -1155,6 +1155,16 @@ void parseId99(char *str)
 	}
 }
 
+struct in_addr prefix_to_netmask(guint32 prefix)
+{
+	struct in_addr netmask;
+	if (prefix == 0)
+		netmask.s_addr = 0;
+	else
+		netmask.s_addr = htonl(~((1U << (32 - prefix)) - 1));
+	return netmask;
+}
+
 void getIPInfoStr(char *dstBuff)
 {
 
@@ -1283,12 +1293,18 @@ void getIPInfoStr(char *dstBuff)
 			NMConnection *conn = NM_CONNECTION(conns->pdata[0]); // pick the right one if there are several
 			s_ip4 = nm_connection_get_setting_ip4_config(conn);
 			const char *gateway = nm_setting_ip_config_get_gateway(s_ip4);
+			NMIPAddress *addr = nm_setting_ip_config_get_address(s_ip4, 0);
+			const char *ipaddress = nm_ip_address_get_address(addr);
+			guint prefix = nm_ip_address_get_prefix(addr); // e.g. 24
+			struct in_addr mask = prefix_to_netmask(prefix);
 
-			strcat(dstBuff, gateway);
+			// printf("Netmask: %s\n", inet_ntoa(mask)); // 255.255.255.0
+
+			sprintf(dstBuff, "$IP:%s,%s,%s", ipaddress, inet_ntoa(mask), gateway);
 		}
 		else
 		{
-			strcat(dstBuff, "0.0.0.0");
+			strcat(dstBuff, "$IP:0.0.0.0,255.255.255.0,0.0.0.0");
 		}
 	}
 

@@ -1,8 +1,0 @@
-ns-agent (2.0.11) UNRELEASED; urgency=medium
-  [jowens]
-  * added log to socket EOF
-  * added exit on eof
-  * updated service file 
-  * updated socket path /var/lib/ns/serial.sock 
-
- -- jowens <jowens@jowens>  Tue, 09 Jun 2026 09:32:53 -0500
