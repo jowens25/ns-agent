@@ -1188,7 +1188,7 @@ void getIPInfoStr(char *dstBuff)
 
 		s = getnameinfo(ifa->ifa_addr, sizeof(struct sockaddr_in), host, NI_MAXHOST, NULL, 0, NI_NUMERICHOST);
 
-		if ((strcmp(ifa->ifa_name, "enp4s0") == 0) && (ifa->ifa_addr->sa_family == AF_INET))
+		if ((strcmp(ifa->ifa_name, "eth0") == 0) && (ifa->ifa_addr->sa_family == AF_INET))
 		{
 			if (s != 0)
 			{
