@@ -1291,10 +1291,28 @@ void getIPInfoStr(char *dstBuff)
 
 		// Get IPv4 configuration object from the device
 
-		const GPtrArray *conns = nm_device_get_available_connections(device);
-		if (conns && conns->len > 0)
+		NMConnection *conn = NULL;
+
+		const char *iface = nm_device_get_iface(device);
+		const GPtrArray *all_conns = nm_client_get_connections(client); // NMClient* you already have
+
+		for (guint i = 0; i < all_conns->len; i++)
 		{
-			NMConnection *conn = NM_CONNECTION(conns->pdata[0]); // pick the right one if there are several
+			NMConnection *c = NM_CONNECTION(all_conns->pdata[i]);
+			NMSettingConnection *s_con = nm_connection_get_setting_connection(c);
+			if (!s_con)
+				continue;
+
+			const char *conn_iface = nm_setting_connection_get_interface_name(c ? s_con : NULL);
+			if (conn_iface && g_strcmp0(conn_iface, iface) == 0)
+			{
+				conn = c;
+				break;
+			}
+		}
+
+		if (conn)
+		{
 			s_ip4 = nm_connection_get_setting_ip4_config(conn);
 			const char *gateway = nm_setting_ip_config_get_gateway(s_ip4);
 			NMIPAddress *addr = nm_setting_ip_config_get_address(s_ip4, 0);
