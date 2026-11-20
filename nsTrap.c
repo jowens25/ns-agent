@@ -446,6 +446,12 @@ void trap_minor_alarm()
 			if (!(val & (1 << i)))
 				continue;
 
+			if (val & (1 << 1))
+			{
+				// if the unit has been reset, clear the error
+				writeRadio("$CLRRST\r\n");
+			}
+
 			int n = snprintf(trapmsg + len, sizeof(trapmsg) - len, "%s%s", len ? " | " : "", minor_alarm_names[i]);
 			if (n < 0 || (size_t)n >= sizeof(trapmsg) - len)
 			{
