@@ -1,4 +1,4 @@
-ns-agent (2.0.14) UNRELEASED; urgency=medium
+ns-agent (2.0.16) UNRELEASED; urgency=medium
   [jowens]
   * added log to socket EOF
   * added exit on eof
@@ -7,5 +7,7 @@ ns-agent (2.0.14) UNRELEASED; urgency=medium
   * removed reboot
   * added a default gw of 0.0.0.0 and checking nmcli conf for static gateway
   * fixed up getIpinfo
+  * expanded string10 parsing
+  * Added major and minor alarms gets, traps
 
- -- jowens <jowens@jowens>  Thu, 06 Aug 2026 09:46:49 -0500
+ -- jowens <jowens@jowens>  Fri, 20 Nov 2026 15:44:27 -0600

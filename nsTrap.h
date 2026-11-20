@@ -31,7 +31,15 @@ extern void init_notification();
 #define GPS_UNLOCK 0
 #define GPS_LOCK 2
 
-typedef enum {
+#define VOLT_HIGH 0
+#define VOLT_LOW 1
+#define VOLT_OK 2
+
+#define ALARM_CLEAR 0
+#define ALARM_SET 1
+
+typedef enum
+{
     TRAP_NSPS1STATUS = 0,
     TRAP_NSPS2STATUS,
     TRAP_NSPS3STATUS,
@@ -57,8 +65,12 @@ typedef enum {
     TRAP_NSCHANNEL14VRMS,
     TRAP_NSCHANNEL15VRMS,
     TRAP_NSCHANNEL16VRMS,
-	TRAP_NSEVENTGPSLOCK,
-	TRAP_COUNT
+    TRAP_NSEVENTGPSLOCK,
+    TRAP_NSANTVOLTAGE,
+    TRAP_MAJOR_ALARM,
+    TRAP_MINOR_ALARM,
+    TRAP_COUNT,
+
 } trap_t;
 
 extern char trap_status[TRAP_COUNT];

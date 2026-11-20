@@ -122,6 +122,7 @@ Netsnmp_Node_Handler handle_nsPPSTimeCalFactor;
 Netsnmp_Node_Handler handle_nsPPSFreqVar;
 Netsnmp_Node_Handler handle_nsCommand;
 Netsnmp_Node_Handler handle_nsResult;
+Netsnmp_Node_Handler handle_nsTest;
 
 Netsnmp_Node_Handler handle_nsDiscPrioritySource;
 Netsnmp_Node_Handler handle_nsDiscCurrentSource;
@@ -146,6 +147,13 @@ Netsnmp_Node_Handler handle_nsRbHoldoverSource;
 Netsnmp_Node_Handler handle_nsRb2Lock;
 Netsnmp_Node_Handler handle_nsRb2Status;
 Netsnmp_Node_Handler handle_nsRb2Steer;
+
+Netsnmp_Node_Handler handle_nsMajorAlarm;
+Netsnmp_Node_Handler handle_nsMinorAlarm;
+Netsnmp_Node_Handler handle_nsRebootFlags;
+
+Netsnmp_Node_Handler handle_nsSatsThreshold1;
+Netsnmp_Node_Handler handle_nsSatsThreshold2;
 
 #define PLEN 14
 #define NS_OID_LEN 11
@@ -236,13 +244,17 @@ typedef struct
 	char nsMeasureTemp[PLEN];
 	char nsMeasureHeaterTemp[PLEN];
 
-	char nsPPSStability[PLEN];
-	char nsPPSDiscGPS[PLEN];
-	char nsPPSOutputType[PLEN];
-	char nsPPSDifference[PLEN];
-	char nsPPSCalFactor[PLEN];
-	char nsPPSTimeCalFactor[PLEN];
-	char nsPPSFreqVar[PLEN];
+	char nsPPSStability[PLEN];		  // 0
+	char nsPPSDiscGPS[PLEN];		  // 1
+	char nsPPSOutputType[PLEN];		  // 2
+	char nsPPSDifference[PLEN];		  // 3
+	char nsPPSAveDifference[PLEN];	  // 4
+	char nsPPSAveCount[PLEN];		  // 5
+	char nsPPSSyncThreshold[PLEN];	  // 6
+	char nsPPSCalFactor[PLEN];		  // 7
+	char nsPPSTimeCalFactor[PLEN];	  // 8
+	char nsPPSFreqVar[PLEN];		  // 9
+	char nsPPSFreqVarThreshold[PLEN]; // 10
 
 	char nsDiscPrioritySource[PLEN];
 	char nsDiscCurrentSource[PLEN];
@@ -268,7 +280,13 @@ typedef struct
 	char nsRb2Status[PLEN];
 	char nsRb2Steer[PLEN];
 
-} radioBlock_t;
+	char nsMajorAlarm[PLEN];
+	char nsMinorAlarm[PLEN];
+	char nsRebootFlags[PLEN];
+	char nsSatsThreshold1[PLEN];
+	char nsSatsThreshold2[PLEN];
+
+} radioBlock_t; // 1634 -> 1676
 
 extern radioBlock_t radio;
 
@@ -419,5 +437,11 @@ extern const oid nsRbHoldoverSource_oid[NS_OID_LEN];
 extern const oid nsRb2Lock_oid[NS_OID_LEN];
 extern const oid nsRb2Status_oid[NS_OID_LEN];
 extern const oid nsRb2Steer_oid[NS_OID_LEN];
+
+extern const oid nsMajorAlarm_oid[NS_OID_LEN];
+extern const oid nsMinorAlarm_oid[NS_OID_LEN];
+extern const oid nsRebootFlags_oid[NS_OID_LEN];
+extern const oid nsSatsThreshold1_oid[NS_OID_LEN];
+extern const oid nsSatsThreshold2_oid[NS_OID_LEN];
 
 #endif /* NOVUS_H */

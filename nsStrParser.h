@@ -21,7 +21,7 @@
 
 extern bool strParser(char *str);
 
-int readFromShm(char* buff);
+int readFromShm(char *buff);
 
 /*
 	1. Identifier $GPNVS
@@ -102,7 +102,7 @@ $GPNVS,4,044023,050818,0.20,0.20,0.20,0.20,0.20,0.20,0.20,0.20*41
 
 #define id4 "s6,s6,s4,s4,s4,s4,s4,s4,s4,s4"
 
-/* 
+/*
 	1. Identifier $GPNVS
 	2. String ID 5
 	3. Time (UTC) hhmmss
@@ -115,7 +115,6 @@ $GPNVS,4,044023,050818,0.20,0.20,0.20,0.20,0.20,0.20,0.20,0.20*41
 $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 */
 #define id5 "s6,s6,s2,s2,s3,,,"
-
 
 /*
 	1. Identifier $GPNVS
@@ -156,7 +155,7 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 
 #define id7 "s6,s6,s1,s2,s4,s3,s3,s3,s12,s6,s6"
 
-/* 
+/*
 	1. Identifier $GPNVS
 	2. String ID 8
 	3. Discipline Counter 0 = Off, 1 = Disciplined to Synthetic PPS
@@ -187,7 +186,7 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 	13. Heater Set Temperature
 	14. NMEA Checksum *XX (xor�d value of bytes between $ and *)
 
-	
+
 */
 #define id9 "s12,s8,,,s5,s5,,s5,s5"
 
@@ -204,7 +203,7 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 	10. NMEA Checksum *XX (xor�d value of bytes between $ and *)
 */
 
-#define id10 "s1,s1,s1,s3,s4,s1,s3"
+#define id10 "s1,s1,s1,s3,s4,s1,s3,s0,s0,s0,s0"
 
 /*
 	1. Identifier $GPNVS
@@ -221,8 +220,6 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 */
 #define id11 "s5,s1,s6,s1,s1,,,s5"
 
-
-
 /*
 1. Identifier						$GPNVS
 2. String ID						13
@@ -236,9 +233,6 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 10. NMEA Checksum					*XX (xor’d value of bytes between $ and *)
 */
 #define id13 "s1,s1,s1,s1,s1,s1"
-
-
-
 
 /*
 1. Identifier						$GPNVS
@@ -255,8 +249,6 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 */
 
 #define id14 "s1,s1,s6,s4,s1,,,s1"
-
-
 
 /*
 1. Identifier						$GPNVS
@@ -276,7 +268,6 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 
 #define id15 "s1,,s4,s4,,,,,,,,"
 
-
 /*
 	1. Identifier $GPNVS
 	2. String ID 16
@@ -295,5 +286,17 @@ $GPNVS,5,043629,050818,0,0,25,0000,0000,*4C
 
 #define id16 "s6,s6,f1.2,f1.2,f1.2,f1.2,f1.2,f1.2,f1.2,f1.2"
 
+/*
+	1. Identifier $GPNVS
+	2. String ID 71
+	3. Major Alarm
+	4. Minor Alarm
+	5. Reboot Word
+	6. Sats threshold 1
+	7. Sats threshold 2
+	8. NMEA Checksum *XX (xor�d value of bytes between $ and *)
+*/
+
+#define id71 "1,2,3,4,5,6,7"
 
 #endif

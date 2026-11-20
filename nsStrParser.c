@@ -46,6 +46,7 @@ void parseId14(char *str);
 void parseId15(char *str);
 void parseId16(char *str);
 void parseId99(char *str);
+void parseId71(char *str);
 
 int addAndActivate(char *ip, char *nm, char *gw);
 
@@ -182,9 +183,13 @@ bool strParser(char *str)
 						case 16:
 							parseId16(str + 10);
 							break;
+						case 71:
+							parseId71(str + 10);
+							break;
 						case 99:
 							parseId99(str + 10);
 							break;
+
 						default:
 							retVal = false;
 						}
@@ -762,6 +767,20 @@ void parseId9(char *str)
 	8. PPS active Time Cal Factor 0 to 9
 	9. Frequency Variance 0-999 (clock cycles per Loop period)
 	10. NMEA Checksum *XX (xor'd value of bytes between $ and *)
+
+	1. Identifier $GPNVS2. String ID 10
+	3. PPS Stability Enabled 0 = Off, 1 = On
+	4. PPS Disciplining to GPS 0 = Off, 1 = Actively Synchronized
+	5. PPS Output Type 0 = Synthetic PPS, 1 = GPS PPS
+	6. PPS Difference ±250 [ns]
+	7. PPS Avg Difference ±250 [ns]
+	8. PPS Avg Count 1-20
+	9. PPS Synch Threshold 1-250
+	10. PPS pull Cal Factor 0.1 to 10.0
+	11. PPS active Time Cal Factor 0 to 9
+	12. Frequency Variance 0-9999 (clock cycles per Loop period)
+	13. Frequency Var Threshold 0-100 (clock cycles per Loop period)
+
 (String 10) Modified string table slightly to avoid indicating extra chars.
 
 $GPNVS,10,0,1,0,+0,+0,2,100,0.5,4,0,10,1,+0,1.0,20*46
@@ -771,20 +790,24 @@ const char id10[] = "s1,s1,s1,s3,s4,s1,s3,";
 
 void parseId10(char *str)
 {
-	char strarray[7][MAX_STR_WIDTH];
-	char fmtarray[7][MAX_STR_WIDTH];
+	char strarray[11][MAX_STR_WIDTH];
+	char fmtarray[11][MAX_STR_WIDTH];
 
-	if (strSplit(id10, ',', 7, &fmtarray[0]) == 7)
+	if (strSplit(id10, ',', 11, &fmtarray[0]) == 11)
 	{
-		if (strSplit(str, ',', 7, &strarray[0]) == 7)
+		if (strSplit(str, ',', 11, &strarray[0]) == 11)
 		{
 			strcpy(radio.nsPPSStability, &strarray[0][0]);
 			strcpy(radio.nsPPSDiscGPS, &strarray[1][0]);
 			strcpy(radio.nsPPSOutputType, &strarray[2][0]);
 			strcpy(radio.nsPPSDifference, &strarray[3][0]);
-			strcpy(radio.nsPPSCalFactor, &strarray[4][0]);
-			strcpy(radio.nsPPSTimeCalFactor, &strarray[5][0]);
-			strcpy(radio.nsPPSFreqVar, &strarray[6][0]);
+			strcpy(radio.nsPPSAveDifference, &strarray[4][0]);
+			strcpy(radio.nsPPSAveCount, &strarray[5][0]);
+			strcpy(radio.nsPPSSyncThreshold, &strarray[6][0]);
+			strcpy(radio.nsPPSCalFactor, &strarray[7][0]); // pull Cal Factor?
+			strcpy(radio.nsPPSTimeCalFactor, &strarray[8][0]);
+			strcpy(radio.nsPPSFreqVar, &strarray[9][0]);
+			strcpy(radio.nsPPSFreqVarThreshold, &strarray[10][0]);
 		}
 		else
 		{
@@ -1030,6 +1053,50 @@ void parseId16(char *str)
 		if (dbg)
 		{
 			syslog(LOG_INFO, "S16: Format err\n");
+		}
+	}
+}
+
+/*
+	1. Identifier $GPNVS
+	2. String ID 71
+	3. Major Alarm
+	4. Minor Alarm
+	5. Reboot Word
+	6. Sats threshold 1
+	7. Sats threshold 2
+	8. NMEA Checksum *XX (xor�d value of bytes between $ and *)
+*/
+
+void parseId71(char *str)
+{
+	char strarray[5][MAX_STR_WIDTH];
+	char fmtarray[5][MAX_STR_WIDTH];
+
+	if (strSplit(id71, ',', 5, &fmtarray[0]) == 5)
+	{
+
+		if (strSplit(str, ',', 5, &strarray[0]) == 5)
+		{
+			strcpy(radio.nsMajorAlarm, &strarray[0][0]);
+			strcpy(radio.nsMinorAlarm, &strarray[1][0]);
+			strcpy(radio.nsRebootFlags, &strarray[2][0]);
+			strcpy(radio.nsSatsThreshold1, &strarray[3][0]);
+			strcpy(radio.nsSatsThreshold2, &strarray[4][0]);
+		}
+		else
+		{
+			if (dbg)
+			{
+				syslog(LOG_INFO, "S71: Malformed\n");
+			}
+		}
+	}
+	else
+	{
+		if (dbg)
+		{
+			syslog(LOG_INFO, "S71: Format err\n");
 		}
 	}
 }
