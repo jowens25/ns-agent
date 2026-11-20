@@ -1332,7 +1332,7 @@ void getIPInfoStr(char *dstBuff)
 		{
 			fprintf(stderr, "Failed to create NM client: %s\n", error->message);
 			g_error_free(error);
-			return 1;
+			return;
 		}
 
 		device = NULL;
@@ -1353,7 +1353,7 @@ void getIPInfoStr(char *dstBuff)
 		{
 			fprintf(stderr, "No Ethernet device found\n");
 			g_object_unref(client);
-			return 1;
+			return;
 		}
 
 		// Get IPv4 configuration object from the device

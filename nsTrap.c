@@ -25,6 +25,7 @@
 #include <net-snmp/agent/net-snmp-agent-includes.h>
 #include "novusAgent.h"
 #include "nsTrap.h"
+#include "nsStartup.h"
 
 extern int traps;
 extern float ps_temp_high;
